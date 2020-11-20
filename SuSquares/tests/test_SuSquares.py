@@ -1,6 +1,6 @@
 import pytest
-from erc721_pbt import StateMachine
-
+from erc721_pbt import StateMachine, Options
+from brownie import TokenReceiver
 
 @pytest.fixture()
 def contract2test(SuMain):
@@ -9,9 +9,21 @@ def contract2test(SuMain):
 
 class SuMain(StateMachine):
     def __init__(self, accounts, contract2test):
-        contract = contract2test.deploy({"from": accounts[0]})
-        StateMachine.__init__(self, accounts, contract, [])
+        wallets = list()
+        for i in range(0, Options.ACCOUNTS):
+            tr = TokenReceiver.deploy({"from": accounts[i] })
+            wallets.append(tr.address)
+        contract = contract2test.deploy({"from": wallets[0]})
+        contract.setOperatingOfficer(wallets[0], { "from": wallets[0] } )
+        super().__init__(self, wallets, contract)
 
+    def onSetup(self):
+        for tokenId in range(1, Options.TOKENS + 1): 
+            account = tokenId % Options.ACCOUNTS
+            address = self.wallets[account]
+            self.contract.grantToken(tokenId, address, { "from": self.wallets[0] } )
+            self.owner[tokenId] = account
+            self.balance[account] = self.balance.get(account, 0) + 1
 
 def test_stateful(contract2test, accounts, state_machine):
     state_machine(SuMain, accounts, contract2test)
