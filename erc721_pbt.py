@@ -63,7 +63,7 @@ class StateMachine:
             or sender in self.operators[owner]
         )
 
-    def rule_transferFrom(self, st_sender, st_receiver, st_token):
+    def rule_transferFrom(self, st_owner, st_receiver, st_token, st_sender):
         if Options.DEBUG:
             print(
                 "transferFrom({},{},{} [sender: {}])".format(
@@ -93,7 +93,7 @@ class StateMachine:
                     "_tokenId": st_token,
                 },
             )
-            # TODO event, return value
+            self.verifyReturnValue(tx, True)
         else:
             with brownie.reverts():
                 self.contract.transferFrom(
@@ -103,7 +103,7 @@ class StateMachine:
                     {"from": self.wallets[st_sender]},
                 )
 
-    def rule_safeTransferFrom(self, st_sender, st_receiver, st_token):
+    def rule_safeTransferFrom(self, st_owner, st_receiver, st_token, st_sender):
         if Options.DEBUG:
             print(
                 "transferFrom({},{},{} [sender: {}])".format(
@@ -133,7 +133,7 @@ class StateMachine:
                     "_tokenId": st_token,
                 },
             )
-            # TODO event, return value
+            self.verifyReturnValue(tx, True)
         else:
             with brownie.reverts():
                 self.contract.safeTransferFrom(
@@ -153,10 +153,7 @@ class StateMachine:
 
     def rule_setApprovalForAll(self, st_sender, st_receiver):
         if Options.DEBUG:
-            print(
-                "setApprovedForAll({}) [sender: {}])".format(
-                    st_receiver, st_sender
-            )
+            print("setApprovedForAll({}) [sender: {}])".format(st_receiver, st_sender))
         # TODO (note that self.operators will contain the model state regarding operators)
 
     def verifyOwner(self, tokenId):
@@ -186,6 +183,10 @@ class StateMachine:
                         "{}.{}: absent event data".format(eventName, k)
                     )
                 self.verifyValue("{}.{}".format(eventName, k), data[k], ev[k])
+
+    def verifyReturnValue(self, tx, expected):
+        if Options.VERIFY_RETURN_VALUES:
+            self.verifyValue("return value", expected, tx.return_value)
 
     def verifyValue(self, msg, expected, actual):
         if expected != actual:
