@@ -90,7 +90,7 @@ class StateMachine:
                 {
                     "_from": self.wallets[st_sender],
                     "_to": self.wallets[st_receiver],
-                    "_tokenId": st_token,
+                    "_tokenId": st_token
                 },
             )
             self.verifyReturnValue(tx, True)
@@ -130,7 +130,7 @@ class StateMachine:
                 {
                     "_from": self.wallets[st_sender],
                     "_to": self.wallets[st_receiver],
-                    "_tokenId": st_token,
+                    "_tokenId": st_token
                 },
             )
             self.verifyReturnValue(tx, True)
@@ -160,7 +160,7 @@ class StateMachine:
         self.verifyValue(
             "ownerOf({})".format(tokenId),
             self.owner[tokenId],
-            self.addr2idx[self.contract.ownerOf(tokenId)],
+            self.addr2idx[self.contract.ownerOf(tokenId)]
         )
 
     def verifyBalance(self, wIdx):
