@@ -18,7 +18,7 @@ class SuMain(StateMachine):
         super().__init__(self, wallets, contract)
 
     def onSetup(self):
-        for tokenId in range(1, Options.TOKENS + 1): 
+        for tokenId in range(1, Options.TOKENS + 1):
             account = tokenId % Options.ACCOUNTS
             address = self.wallets[account]
             self.contract.grantToken(tokenId, address, { "from": self.wallets[0] } )
