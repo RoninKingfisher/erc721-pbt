@@ -23,6 +23,7 @@ class StateMachine:
         "uint256", min_value=0, max_value=Options.ACCOUNTS - 1
     )
     st_token = strategy("uint256", min_value=1, max_value=Options.TOKENS)
+    st_bool = strategy("bool" )
 
     def __init__(self, wallets, contract, DEBUG=None):
         self.wallets = wallets
@@ -43,7 +44,7 @@ class StateMachine:
 
         # address -> list of approved operators - for each address x in operators[address]
         # isApprovedForAll(address,x) must return true
-        self.operators = {addr: [] for addr in range(Options.ACCOUNTS)}
+        self.operators = {addr: set() for addr in range(Options.ACCOUNTS)}
 
         # Callback for initial setup (contract-dependent)
         self.onSetup()
@@ -167,18 +168,26 @@ class StateMachine:
                     self.wallets[st_receiver], st_token,{"from": self.wallets[st_sender]}
                 )
 
-    def x_rule_setApprovalForAll(self, st_sender, st_receiver):
+    def rule_setApprovalForAll(self, st_sender, st_receiver, st_bool):
         if Options.DEBUG:
-            print("setApprovedForAll({}) [sender: {}])".format(st_receiver, st_sender))
+            print(
+                "setApprovedForAll({}, {}) [sender: {}])".format(
+                    st_receiver, st_bool, st_sender
+                )
+            )
         # TODO (note that self.operators will contain the model state regarding operators)
         with normal():
             tx = self.contract.setApprovalForAll(
-                st_receiver, {"from":st_sender}
-            )
+                self.wallets[st_receiver], st_bool, {"from":self.wallets[st_sender]})
+            if st_bool:
+                self.operators[st_sender].add(st_receiver)
+            elif st_receiver in self.operators[st_sender]:
+                self.operators[st_sender].remove(st_receiver)
+            self.verifySetApprovedForAll(st_sender, st_receiver)
             self.verifyEvent(
                 tx,
-                "is Approved for All",
-                {"owner": st_sender, "approved": st_receiver}
+                "ApprovalForAll",
+                {"_owner": self.wallets[st_sender], "_operator": self.wallets[st_receiver], "_approved": st_bool}
             )
 
     def verifyOwner(self, tokenId):
@@ -200,6 +209,13 @@ class StateMachine:
             "getApproved({})".format(token),
             self.wallets[self.approved[token]],
             self.contract.getApproved(token)
+        )
+
+    def verifySetApprovedForAll(self, sender, receiver):
+        self.verifyValue(
+            "isApprovedForAll({}, {})".format(sender, receiver),
+            receiver in self.operators[sender],
+            self.contract.isApprovedForAll(self.wallets[sender], self.wallets[receiver])
         )
 
     def verifyEvent(self, tx, eventName, data):
