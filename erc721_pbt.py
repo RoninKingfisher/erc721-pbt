@@ -23,10 +23,12 @@ class StateMachine:
         "uint256", min_value=0, max_value=Options.ACCOUNTS - 1
     )
     st_token = strategy("uint256", min_value=1, max_value=Options.TOKENS)
+    st_bool = strategy("bool" )
 
     def __init__(self, wallets, contract, DEBUG=None):
         self.wallets = wallets
         self.addr2idx = { addr: i for i,addr in enumerate(wallets)}
+        self.addr2idx[0] = -1
         self.tokens = range(1, Options.TOKENS + 1)
         self.contract = contract
 
@@ -42,7 +44,7 @@ class StateMachine:
 
         # address -> list of approved operators - for each address x in operators[address]
         # isApprovedForAll(address,x) must return true
-        self.operators = {addr: [] for addr in range(Options.ACCOUNTS)}
+        self.operators = {addr: set() for addr in range(Options.ACCOUNTS)}
 
         # Callback for initial setup (contract-dependent)
         self.onSetup()
@@ -66,7 +68,7 @@ class StateMachine:
     def rule_transferFrom(self, st_owner, st_receiver, st_token, st_sender):
         if Options.DEBUG:
             print(
-                "transferFrom({},{},{} [sender: {}])".format(
+                "transferFrom(owner {},receiver {},token {} [sender: {}])".format(
                     st_owner, st_receiver, st_token, st_sender
                 )
             )
@@ -93,7 +95,6 @@ class StateMachine:
                     "_tokenId": st_token
                 },
             )
-            self.verifyReturnValue(tx, True)
         else:
             with brownie.reverts():
                 self.contract.transferFrom(
@@ -102,7 +103,6 @@ class StateMachine:
                     st_token,
                     {"from": self.wallets[st_sender]},
                 )
-
     def rule_safeTransferFrom(self, st_owner, st_receiver, st_token, st_sender):
         if Options.DEBUG:
             print(
@@ -133,7 +133,6 @@ class StateMachine:
                     "_tokenId": st_token
                 },
             )
-            self.verifyReturnValue(tx, True)
         else:
             with brownie.reverts():
                 self.contract.safeTransferFrom(
@@ -142,6 +141,7 @@ class StateMachine:
                     st_token,
                     {"from": self.wallets[st_sender]},
                 )
+
     def rule_approve(self, st_sender, st_token, st_receiver):
         if Options.DEBUG:
             print(
@@ -150,11 +150,45 @@ class StateMachine:
                 )
             )
         # TODO (note that self.approved will contain the model state regarding approvals)
+        if self.owner[st_token] == st_sender or st_sender in self.operators[self.owner[st_token]]:
+            with normal():
+                tx = self.contract.approve(
+                    self.wallets[st_receiver], st_token,{"from": self.wallets[st_sender]}
+                )
+                self.approved[st_token] = st_receiver
+                self.verifyApproved(st_token)
+                self.verifyEvent(
+                    tx,
+                    "Approval",
+                    {"_owner": self.wallets[self.owner[st_token]], "_tokenId": st_token, "_approved": self.wallets[st_receiver]}
+                )
+        else:
+            with brownie.reverts():
+                self.contract.approve(
+                    self.wallets[st_receiver], st_token,{"from": self.wallets[st_sender]}
+                )
 
-    def rule_setApprovalForAll(self, st_sender, st_receiver):
+    def rule_setApprovalForAll(self, st_sender, st_receiver, st_bool):
         if Options.DEBUG:
-            print("setApprovedForAll({}) [sender: {}])".format(st_receiver, st_sender))
+            print(
+                "setApprovedForAll({}, {}) [sender: {}])".format(
+                    st_receiver, st_bool, st_sender
+                )
+            )
         # TODO (note that self.operators will contain the model state regarding operators)
+        with normal():
+            tx = self.contract.setApprovalForAll(
+                self.wallets[st_receiver], st_bool, {"from":self.wallets[st_sender]})
+            if st_bool:
+                self.operators[st_sender].add(st_receiver)
+            elif st_receiver in self.operators[st_sender]:
+                self.operators[st_sender].remove(st_receiver)
+            self.verifySetApprovedForAll(st_sender, st_receiver)
+            self.verifyEvent(
+                tx,
+                "ApprovalForAll",
+                {"_owner": self.wallets[st_sender], "_operator": self.wallets[st_receiver], "_approved": st_bool}
+            )
 
     def verifyOwner(self, tokenId):
         self.verifyValue(
@@ -168,6 +202,20 @@ class StateMachine:
             "balanceOf({})".format(wIdx),
             self.balance[wIdx],
             self.contract.balanceOf(self.wallets[wIdx]),
+        )
+
+    def verifyApproved(self, token):
+        self.verifyValue(
+            "getApproved({})".format(token),
+            self.wallets[self.approved[token]],
+            self.contract.getApproved(token)
+        )
+
+    def verifySetApprovedForAll(self, sender, receiver):
+        self.verifyValue(
+            "isApprovedForAll({}, {})".format(sender, receiver),
+            receiver in self.operators[sender],
+            self.contract.isApprovedForAll(self.wallets[sender], self.wallets[receiver])
         )
 
     def verifyEvent(self, tx, eventName, data):

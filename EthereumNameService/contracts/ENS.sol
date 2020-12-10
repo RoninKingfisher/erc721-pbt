@@ -492,7 +492,7 @@ contract ERC721 is ERC165, IERC721 {
 
     /**
      * @dev Internal function to transfer ownership of a given token ID to another address.
-     * As opposed to transferFrom, this imposes no restrictions on msg.sender.
+     * A(BaseRegistrarImplementations opposed to transferFrom, this imposes no restrictions on msg.sender.
      * @param from current owner of the token
      * @param to address to receive the ownership of the given token ID
      * @param tokenId uint256 ID of the token to be transferred
@@ -695,12 +695,15 @@ contract BaseRegistrarImplementation is BaseRegistrar, ERC721 {
     );
     bytes4 constant private RECLAIM_ID = bytes4(keccak256("reclaim(uint256,address)"));
 
-    constructor(ENS _ens, bytes32 _baseNode) public {
-        ens = _ens;
-        baseNode = _baseNode;
-    }
+//    constructor(ENS _ens, bytes32 _baseNode) public {
+//        ens = _ens;
+//        baseNode = _baseNode;
+//    }
 
-    modifier live {
+      constructor() public {
+      }
+    
+      modifier live {
         require(ens.owner(baseNode) == address(this));
         _;
     }
