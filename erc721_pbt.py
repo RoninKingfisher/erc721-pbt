@@ -270,6 +270,35 @@ def patch_hypothesis_for_seed_handling(seed):
 
     hypothesis.stateful.run_state_machine_as_test = run_state_machine
 
+def patch_hypothesis_for_fuzz_behavior():
+    import hypothesis
+
+    # Replacement for method should_generate_more in hypothesis.internal.conjecture.engine.ConjectureRunner
+    def should_generate_more_patch(self):
+        # End the generation phase where we would have ended it if no bugs had
+        # been found.  This reproduces the exit logic in `self.test_function`,
+        # but with the important distinction that this clause will move on to
+        # the shrinking phase having found one or more bugs, while the other
+        # will exit having found zero bugs.
+        if self.valid_examples >= self.settings.max_examples or self.call_count >= max(
+            self.settings.max_examples * 10, 1000
+        ):  # pragma: no cover
+            return False
+
+        # If we haven't found a bug, keep looking - if we hit any limits on
+        # the number of tests to run that will raise an exception and stop
+        # the run.
+        if not self.interesting_examples:
+            return True
+        # If we've found a bug and won't report more than one, stop looking.
+        elif not self.settings.report_multiple_bugs:
+            return False
+        assert self.first_bug_found_at <= self.last_bug_found_at <= self.call_count
+        # PATCH IS HERE
+        return self.valid_examples <= self.settings.max_examples \
+            and self.call_count <= 2 * self.settings.max_examples
+    hypothesis.internal.conjecture.engine.ConjectureRunner.should_generate_more = should_generate_more_patch 
+
 
 def patch_brownie_for_assertion_detection():
     from brownie.test.managers.runner import RevertContextManager
@@ -297,6 +326,7 @@ def register_hypothesis_profiles():
         patch_hypothesis_for_seed_handling(Options.SEED)
         derandomize = False
 
+    patch_hypothesis_for_fuzz_behavior()
     patch_brownie_for_assertion_detection()
 
     settings.register_profile(
