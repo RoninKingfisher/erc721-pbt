@@ -21,7 +21,7 @@ interface ENS {
     event NewTTL(bytes32 indexed node, uint64 ttl);
 
     // Logged when an operator is added or removed.
-    event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
+    event ApprovalForAll(address indexed _owner, address indexed _operator, bool _approved);
 
     function setRecord(bytes32 node, address owner, address resolver, uint64 ttl) external;
     function setSubnodeRecord(bytes32 node, bytes32 label, address owner, address resolver, uint64 ttl) external;
@@ -65,9 +65,9 @@ pragma solidity ^0.5.0;
  * @dev see https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md
  */
 contract IERC721 is IERC165 {
-    event Transfer(address indexed from, address indexed to, uint256 indexed tokenId);
-    event Approval(address indexed owner, address indexed approved, uint256 indexed tokenId);
-    event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
+    event Transfer(address indexed _from, address indexed _to, uint256 indexed _tokenId);
+    event Approval(address indexed _owner, address indexed _approved, uint256 indexed _tokenId);
+    event ApprovalForAll(address indexed _owner, address indexed _operator, bool _approved);
 
     function balanceOf(address owner) public view returns (uint256 balance);
     function ownerOf(uint256 tokenId) public view returns (address owner);
