@@ -5,8 +5,17 @@ import './ERC721Enumerable.sol';
 import './ERC721Metadata.sol';
 
 contract FullAssetRegistry is ERC721Base, ERC721Enumerable, ERC721Metadata {
+
+  address private owner;
+
   constructor() public {
+    owner = msg.sender;
   }
+
+  function mint(address to, uint256 assetId) external { 
+    require(msg.sender == owner);
+    _generate(assetId, to);
+  } 
 
   /**
    * @dev Method to check if an asset identified by the given id exists under this DAR.
