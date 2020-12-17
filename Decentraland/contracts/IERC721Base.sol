@@ -45,18 +45,18 @@ interface IERC721Base {
     bytes userData
   );
   event Transfer(
-    address indexed from,
-    address indexed to,
-    uint256 indexed assetId
+    address indexed _from,
+    address indexed _to,
+    uint256 indexed _tokenId
   );
   event ApprovalForAll(
-    address indexed holder,
-    address indexed operator,
-    bool authorized
+    address indexed _owner,
+    address indexed _operator,
+    bool _approved
   );
   event Approval(
-    address indexed owner,
-    address indexed operator,
-    uint256 indexed assetId
+    address indexed _owner,
+    address indexed _approved,
+    uint256 indexed _tokenId
   );
 }
