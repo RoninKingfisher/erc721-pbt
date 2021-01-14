@@ -1,0 +1,23 @@
+--- Environment variables set --
+PBT_ACCOUNTS=4
+PBT_DEBUG=no
+PBT_MAX_EXAMPLES=100
+PBT_PROFILE=generate
+PBT_SEED=0
+PBT_STATEFUL_STEP_COUNT=5
+PBT_TOKENS=6
+PBT_VERIFY_EVENTS=yes
+PBT_VERIFY_RETURN_VALUES=no
+--- Running tests ---
+============================= test session starts ==============================
+platform linux -- Python 3.7.5, pytest-6.0.1, py-1.8.0, pluggy-0.13.1
+rootdir: /home/halcyon/erc721-pbt/SuSquares
+plugins: xdist-1.34.0, hypothesis-5.35.0, eth-brownie-1.11.12, web3-5.11.1, forked-1.3.0
+collected 1 item
+
+Launching 'ganache-cli --port 8545 --gasLimit 12000000 --accounts 10 --hardfork istanbul --mnemonic brownie'...
+
+tests/test_SuSquares.py [?25l[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D.[?25h                                                [100%]
+
+======================== 1 passed in 149.25s (0:02:29) =========================
+Terminating local RPC client...
