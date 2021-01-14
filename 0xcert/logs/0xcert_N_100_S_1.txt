@@ -1,0 +1,75 @@
+--- Environment variables set --
+PBT_ACCOUNTS=4
+PBT_DEBUG=no
+PBT_MAX_EXAMPLES=100
+PBT_PROFILE=shrinking
+PBT_SEED=0
+PBT_STATEFUL_STEP_COUNT=5
+PBT_TOKENS=6
+PBT_VERIFY_EVENTS=yes
+PBT_VERIFY_RETURN_VALUES=no
+--- Running tests ---
+============================= test session starts ==============================
+platform linux -- Python 3.7.5, pytest-6.0.1, py-1.8.0, pluggy-0.13.1
+rootdir: /home/halcyon/erc721-pbt/0xcert
+plugins: xdist-1.34.0, hypothesis-5.35.0, eth-brownie-1.11.12, web3-5.11.1, forked-1.3.0
+collected 1 item
+
+Launching 'ganache-cli --port 8545 --gasLimit 12000000 --accounts 10 --hardfork istanbul --mnemonic brownie'...
+
+tests/test_0xcert.py [?25l[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1DF[?25h                                                   [100%]
+
+=================================== FAILURES ===================================
+________________________________ test_stateful _________________________________
+
+contract2test = <brownie.network.contract.ContractContainer object at 0x7fef45a2e210>
+accounts = <brownie.network.account.Accounts object at 0x7fef475a0c10>
+state_machine = <function state_machine at 0x7fef481537a0>
+
+    def test_stateful(contract2test, accounts, state_machine):
+>       state_machine(NFToken, accounts, contract2test)
+
+tests/test_0xcert.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.7/dist-packages/hypothesis/stateful.py:75: in run_state_machine_as_test
+    def run_state_machine_as_test(state_machine_factory, *, settings=None):
+/usr/local/lib/python3.7/dist-packages/hypothesis/internal/reflection.py:654: in accept
+    return func(*bound.args, **bound.kwargs)
+/usr/local/lib/python3.7/dist-packages/hypothesis/stateful.py:92: in run_state_machine
+    @given(st.data())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = BrownieStateMachine({}), st_sender = 2, st_token = 2, st_receiver = 2
+
+    def rule_approve(self, st_sender, st_token, st_receiver):
+        if Options.DEBUG:
+            print(
+                "approve({},{}) [sender: {}])".format(
+                    st_receiver, st_token, st_sender
+                )
+            )
+        # TODO (note that self.approved will contain the model state regarding approvals)
+        if self.owner[st_token] == st_sender or st_sender in self.operators[self.owner[st_token]]:
+            with normal():
+                tx = self.contract.approve(
+>                   self.wallets[st_receiver], st_token,{"from": self.wallets[st_sender]}
+                )
+E               brownie.exceptions.VirtualMachineError: revert: 003008
+E               [0;2;37mTrace step [0;1;34m-1[0;2;37m, program counter [0;1;34m1033[0;2;37m:
+E                 [0;2;37mFile [0;1;35m"contracts/tokens/nf-token.sol"[0;2;37m, line [0;1;34m140[0;2;37m, in [0;1;36mNFToken.getApproved[0;2;37m:    [0;2;37m
+E               [0;2;37m        uint256 _tokenId
+E               [0;2;37m      )
+E               [0;2;37m      {
+E               [0;2;37m        [0;mrequire(idToOwner[_tokenId] != address(0), NOT_VALID_NFT)[0;2;37m;
+E               [0;2;37m        _;
+E               [0;2;37m      }
+E               [0;2;37m    [0;m
+
+../erc721_pbt.py:156: VirtualMachineError
+----------------------------- Captured stdout call -----------------------------
+
+Falsifying example:state = BrownieStateMachine()state.rule_approve(st_receiver=2, st_sender=2, st_token=2)state.teardown()You can reproduce this example by temporarily adding @reproduce_failure('5.35.0', b'AAABAAAAAgIB') as a decorator on your test case
+=========================== short test summary info ============================
+FAILED tests/test_0xcert.py::test_stateful - brownie.exceptions.VirtualMachin...
+======================== 1 failed in 163.89s (0:02:43) =========================
+Terminating local RPC client...

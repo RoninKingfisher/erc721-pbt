@@ -147,7 +147,15 @@ contract NFToken is
   constructor()
     public
   {
+    owner = msg.sender;
     supportedInterfaces[0x80ac58cd] = true; // ERC721
+  }
+
+  address private owner;
+
+  function mintToken(uint256 tokenId, address to) external {
+    require(msg.sender == owner);
+    _mint(to, tokenId);
   }
 
   /**

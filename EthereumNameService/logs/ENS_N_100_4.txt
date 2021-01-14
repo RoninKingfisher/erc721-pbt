@@ -1,0 +1,76 @@
+--- Environment variables set --
+PBT_ACCOUNTS=4
+PBT_DEBUG=no
+PBT_MAX_EXAMPLES=100
+PBT_PROFILE=generate
+PBT_SEED=0
+PBT_STATEFUL_STEP_COUNT=5
+PBT_TOKENS=6
+PBT_VERIFY_EVENTS=yes
+PBT_VERIFY_RETURN_VALUES=no
+--- Running tests ---
+============================= test session starts ==============================
+platform linux -- Python 3.7.5, pytest-6.0.1, py-1.8.0, pluggy-0.13.1
+rootdir: /home/halcyon/erc721-pbt/EthereumNameService
+plugins: xdist-1.34.0, hypothesis-5.35.0, eth-brownie-1.11.12, web3-5.11.1, forked-1.3.0
+collected 1 item
+
+Launching 'ganache-cli --port 8545 --gasLimit 12000000 --accounts 10 --hardfork istanbul --mnemonic brownie'...
+
+tests/test_ENS.py [?25l[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1D[0;33m|[1D[0;33m/[1D[0;33m-[1D[0;33m\[1DF[?25h                                                      [100%]
+
+=================================== FAILURES ===================================
+________________________________ test_stateful _________________________________
+
+contract2test = <brownie.network.contract.ContractContainer object at 0x7f800bfcdbd0>
+accounts = <brownie.network.account.Accounts object at 0x7f8012e1d6d0>
+state_machine = <function state_machine at 0x7f800efbb7a0>
+
+    def test_stateful(contract2test, accounts, state_machine):
+>       state_machine(BaseRegistrarImplementation, accounts, contract2test)
+
+tests/test_ENS.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.7/dist-packages/hypothesis/stateful.py:75: in run_state_machine_as_test
+    def run_state_machine_as_test(state_machine_factory, *, settings=None):
+/usr/local/lib/python3.7/dist-packages/hypothesis/internal/reflection.py:654: in accept
+    return func(*bound.args, **bound.kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+factory = <function state_machine.<locals>.<lambda> at 0x7f800bec93b0>
+
+    @settings
+>   @given(st.data())
+    def run_state_machine(factory, data):
+E   hypothesis.errors.MultipleFailures: Hypothesis found 2 distinct failures.
+
+/usr/local/lib/python3.7/dist-packages/hypothesis/stateful.py:92: MultipleFailures
+----------------------------- Captured stdout call -----------------------------
+
+Falsifying example:state = BrownieStateMachine()state.rule_setApprovalForAll(st_bool=False, st_receiver=1, st_sender=1)state.teardown()
+Traceback (most recent call last):  File "/home/halcyon/erc721-pbt/erc721_pbt.py", line 181, in rule_setApprovalForAll    self.wallets[st_receiver], st_bool, {"from":self.wallets[st_sender]})brownie.exceptions.VirtualMachineError: revert[0;2;37mTrace step [0;1;34m-1[0;2;37m, program counter [0;1;34m3130[0;2;37m:
+  [0;2;37mFile [0;1;35m"contracts/ENS.sol"[0;2;37m, line [0;1;34m366[0;2;37m, in [0;1;36mERC721.setApprovalForAll[0;2;37m:    [0;2;37m
+[0;2;37m     * @param approved representing the status of the approval to be set
+[0;2;37m     */
+[0;2;37m    function setApprovalForAll(address to, bool approved) public {
+[0;2;37m        [0;mrequire(to != msg.sender)[0;2;37m;
+[0;2;37m        _operatorApprovals[msg.sender][to] = approved;
+[0;2;37m        emit ApprovalForAll(msg.sender, to, approved);
+[0;2;37m    }[0;m
+
+You can reproduce this example by temporarily adding @reproduce_failure('5.35.0', b'AAABAAEAAAEB') as a decorator on your test case
+Falsifying example:state = BrownieStateMachine()state.rule_approve(st_receiver=1, st_sender=1, st_token=1)state.teardown()
+Traceback (most recent call last):  File "/home/halcyon/erc721-pbt/erc721_pbt.py", line 156, in rule_approve    self.wallets[st_receiver], st_token,{"from": self.wallets[st_sender]}brownie.exceptions.VirtualMachineError: revert[0;2;37mTrace step [0;1;34m-1[0;2;37m, program counter [0;1;34m2191[0;2;37m:
+  [0;2;37mFile [0;1;35m"contracts/ENS.sol"[0;2;37m, line [0;1;34m341[0;2;37m, in [0;1;36mERC721.approve[0;2;37m:    [0;2;37m
+[0;2;37m     */
+[0;2;37m    function approve(address to, uint256 tokenId) public {
+[0;2;37m        address owner = ownerOf(tokenId);
+[0;2;37m        [0;mrequire(to != owner)[0;2;37m;
+[0;2;37m        require(msg.sender == owner || isApprovedForAll(owner, msg.sender));
+[0;2;37m        _tokenApprovals[tokenId] = to;[0;m
+
+You can reproduce this example by temporarily adding @reproduce_failure('5.35.0', b'AAABAAAAAQEA') as a decorator on your test case
+=========================== short test summary info ============================
+FAILED tests/test_ENS.py::test_stateful - hypothesis.errors.MultipleFailures:...
+======================== 1 failed in 184.92s (0:03:04) =========================
+Terminating local RPC client...
