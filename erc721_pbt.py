@@ -166,7 +166,11 @@ class StateMachine:
                 self.verifyEvent(
                     tx,
                     "Approval",
-                    {"_owner": self.wallets[self.owner[st_token]], "_tokenId": st_token, "_approved": self.wallets[st_receiver]}
+                    {
+                        "_owner": self.wallets[self.owner[st_token]], 
+                        "_tokenId": st_token, 
+                        "_approved": self.wallets[st_receiver]
+                    }
                 )
         else:
             with brownie.reverts():
@@ -194,7 +198,11 @@ class StateMachine:
                 self.verifyEvent(
                     tx,
                     "ApprovalForAll",
-                    {"_owner": self.wallets[st_sender], "_operator": self.wallets[st_receiver], "_approved": st_bool}
+                    {
+                        "_owner": self.wallets[st_sender], 
+                        "_operator": self.wallets[st_receiver], 
+                        "_approved": st_bool
+                    }
                 )
         else:
             with brownie.reverts():
