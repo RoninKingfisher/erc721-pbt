@@ -93,7 +93,7 @@ class StateMachine:
                 tx,
                 "Transfer",
                 {
-                    "_from": self.wallets[st_sender],
+                    "_from": self.wallets[st_owner],
                     "_to": self.wallets[st_receiver],
                     "_tokenId": st_token
                 },
@@ -133,7 +133,7 @@ class StateMachine:
                 tx,
                 "Transfer",
                 {
-                    "_from": self.wallets[st_sender],
+                    "_from": self.wallets[st_owner],
                     "_to": self.wallets[st_receiver],
                     "_tokenId": st_token
                 },
