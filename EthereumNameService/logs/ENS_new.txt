@@ -1,0 +1,23 @@
+--- Environment variables set --
+PBT_ACCOUNTS=4
+PBT_DEBUG=no
+PBT_MAX_EXAMPLES=100
+PBT_PROFILE=generate
+PBT_SEED=0
+PBT_STATEFUL_STEP_COUNT=100
+PBT_TOKENS=6
+PBT_VERIFY_EVENTS=yes
+PBT_VERIFY_RETURN_VALUES=no
+--- Running tests ---
+============================= test session starts ==============================
+platform darwin -- Python 3.9.0, pytest-6.0.1, py-1.9.0, pluggy-0.13.1
+rootdir: /Users/edrdo/development/erc721-pbt/EthereumNameService
+plugins: eth-brownie-1.11.11, xdist-1.34.0, web3-5.11.1, hypothesis-5.35.0, forked-1.3.0
+collected 1 item                                                               
+
+Launching 'ganache-cli --port 8545 --gasLimit 12000000 --accounts 10 --hardfork istanbul --mnemonic brownie'...
+
+tests/test_ENS.py .                                                      [100%]
+
+======================== 1 passed in 594.33s (0:09:54) =========================
+Terminating local RPC client...
