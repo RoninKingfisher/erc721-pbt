@@ -1,0 +1,67 @@
+--- Environment variables set --
+PBT_ACCOUNTS=4
+PBT_DEBUG=no
+PBT_MAX_EXAMPLES=100
+PBT_PROFILE=generate
+PBT_SEED=0
+PBT_STATEFUL_STEP_COUNT=100
+PBT_TOKENS=6
+PBT_VERIFY_EVENTS=yes
+PBT_VERIFY_RETURN_VALUES=no
+--- Running tests ---
+============================= test session starts ==============================
+platform darwin -- Python 3.9.0, pytest-6.0.1, py-1.9.0, pluggy-0.13.1
+rootdir: /Users/edrdo/development/erc721-pbt/0xcert
+plugins: eth-brownie-1.11.11, xdist-1.34.0, web3-5.11.1, hypothesis-5.35.0, forked-1.3.0
+collected 1 item                                                               
+
+Launching 'ganache-cli --port 8545 --gasLimit 12000000 --accounts 10 --hardfork istanbul --mnemonic brownie'...
+
+tests/test_0xcert.py F                                                   [100%]
+
+=================================== FAILURES ===================================
+________________________________ test_stateful _________________________________
+
+contract2test = <brownie.network.contract.ContractContainer object at 0x109d326d0>
+accounts = <brownie.network.account.Accounts object at 0x10ad24670>
+state_machine = <function state_machine at 0x10be41310>
+
+    def test_stateful(contract2test, accounts, state_machine):
+>       state_machine(NFToken, accounts, contract2test)
+
+tests/test_0xcert.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/hypothesis/stateful.py:75: in run_state_machine_as_test
+    def run_state_machine_as_test(state_machine_factory, *, settings=None):
+/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/hypothesis/internal/reflection.py:654: in accept
+    return func(*bound.args, **bound.kwargs)
+/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/hypothesis/stateful.py:92: in run_state_machine
+    @given(st.data())
+../erc721_pbt.py:209: in rule_setApprovalForAll
+    tx = self.contract.setApprovalForAll(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <brownie.test.managers.runner.RevertContextManager object at 0x10fd97d30>
+exc_type = None, exc_value = None, traceback = None
+
+    def alt_exit(self, exc_type, exc_value, traceback):
+        if exc_type is VirtualMachineError:
+            exc_value.__traceback__.tb_next = None
+            if exc_value.revert_type != "revert":
+                return False
+>       return f(self, exc_type, exc_value, traceback)
+E       AssertionError: Transaction did not revert
+
+../erc721_pbt.py:334: AssertionError
+----------------------------- Captured stdout call -----------------------------
+
+Falsifying example:
+state = BrownieStateMachine()
+state.rule_setApprovalForAll(st_bool=False, st_receiver=0, st_sender=0)
+state.teardown()
+
+You can reproduce this example by temporarily adding @reproduce_failure('5.35.0', b'AAABAAEAAAAA') as a decorator on your test case
+=========================== short test summary info ============================
+FAILED tests/test_0xcert.py::test_stateful - AssertionError: Transaction did ...
+======================== 1 failed in 370.23s (0:06:10) =========================
+Terminating local RPC client...

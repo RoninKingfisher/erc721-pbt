@@ -1,0 +1,174 @@
+--- Environment variables set --
+PBT_ACCOUNTS=4
+PBT_DEBUG=no
+PBT_MAX_EXAMPLES=100
+PBT_PROFILE=generate
+PBT_SEED=0
+PBT_STATEFUL_STEP_COUNT=100
+PBT_TOKENS=6
+PBT_VERIFY_EVENTS=yes
+PBT_VERIFY_RETURN_VALUES=no
+--- Running tests ---
+============================= test session starts ==============================
+platform darwin -- Python 3.9.0, pytest-6.0.1, py-1.9.0, pluggy-0.13.1
+rootdir: /Users/edrdo/development/erc721-pbt/Decentraland
+plugins: eth-brownie-1.11.11, xdist-1.34.0, web3-5.11.1, hypothesis-5.35.0, forked-1.3.0
+collected 1 item                                                               
+
+Launching 'ganache-cli --port 8545 --gasLimit 12000000 --accounts 10 --hardfork istanbul --mnemonic brownie'...
+
+tests/test_Decentraland.py F                                             [100%]
+
+=================================== FAILURES ===================================
+________________________________ test_stateful _________________________________
+
+contract2test = <brownie.network.contract.ContractContainer object at 0x10814bd30>
+accounts = <brownie.network.account.Accounts object at 0x1063a7640>
+state_machine = <function state_machine at 0x1074c4310>
+
+    def test_stateful(contract2test, accounts, state_machine):
+>       state_machine(FullAssetRegistry, accounts, contract2test)
+
+tests/test_Decentraland.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/hypothesis/stateful.py:75: in run_state_machine_as_test
+    def run_state_machine_as_test(state_machine_factory, *, settings=None):
+/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/hypothesis/internal/reflection.py:654: in accept
+    return func(*bound.args, **bound.kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+factory = <function state_machine.<locals>.<lambda> at 0x10898e3a0>
+
+    @settings
+>   @given(st.data())
+E   hypothesis.errors.MultipleFailures: Hypothesis found 5 distinct failures.
+
+/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/hypothesis/stateful.py:92: MultipleFailures
+----------------------------- Captured stdout call -----------------------------
+
+Falsifying example:
+state = BrownieStateMachine()
+state.rule_approve(st_receiver=0, st_sender=0, st_token=3)
+state.rule_approve(st_receiver=1, st_sender=0, st_token=3)
+state.rule_approve(st_receiver=1, st_sender=2, st_token=4)
+state.rule_approve(st_receiver=3, st_sender=2, st_token=4)
+state.rule_approve(st_receiver=0, st_sender=1, st_token=5)
+state.rule_approve(st_receiver=1, st_sender=1, st_token=1)
+state.rule_approve(st_receiver=2, st_sender=1, st_token=6)
+state.rule_approve(st_receiver=1, st_sender=0, st_token=3)
+state.rule_approve(st_receiver=2, st_sender=3, st_token=2)
+state.rule_approve(st_receiver=1, st_sender=1, st_token=6)
+state.rule_approve(st_receiver=0, st_sender=1, st_token=5)
+state.teardown()
+
+Traceback (most recent call last):
+  File "/Users/edrdo/development/erc721-pbt/erc721_pbt.py", line 166, in rule_approve
+    self.verifyEvent(
+AssertionError: Approval: event was not fired
+
+
+
+You can reproduce this example by temporarily adding @reproduce_failure('5.35.0', b'AXicLY27EcJQDATv44dbIXMnhLgKiJ04ogQCnNltENIAddCCM3QMGgXSaFcHbjItkjCqdDmBqNZ1BZVRHuaMAqze9yUA2B1HsNxoZX9eYVwnsd2mnPjz8+vxLCRwEsz9HDaZUfvW3vgvh+4LU/sLbw==') as a decorator on your test case
+
+Falsifying example:
+state = BrownieStateMachine()
+state.rule_setApprovalForAll(st_bool=True, st_receiver=2, st_sender=1)
+state.rule_safeTransferFrom(st_owner=1, st_receiver=1, st_sender=2, st_token=1)
+state.teardown()
+
+Traceback (most recent call last):
+  File "/Users/edrdo/development/erc721-pbt/erc721_pbt.py", line 117, in rule_safeTransferFrom
+    tx = self.contract.safeTransferFrom(
+  File "brownie/network/contract.py", line 898, in __call__
+    return fn(*args)  # type: ignore
+  File "brownie/network/contract.py", line 1196, in __call__
+    return self.transact(*args)
+  File "brownie/network/contract.py", line 1071, in transact
+    return tx["from"].transfer(
+  File "brownie/network/account.py", line 603, in transfer
+    receipt._raise_if_reverted(exc)
+  File "brownie/network/transaction.py", line 282, in _raise_if_reverted
+    raise exc._with_attr(source=source, revert_msg=self._revert_msg)
+brownie.exceptions.VirtualMachineError: revert
+Trace step -1, program counter 3237:
+  File "contracts/ERC721Base.sol", line 284, in ERC721Base._moveToken:    
+      }
+
+      modifier destinataryIsNotHolder(uint256 assetId, address to) {
+        require(_ownerOf(assetId) != to);
+        _;
+      }
+    
+
+
+
+You can reproduce this example by temporarily adding @reproduce_failure('5.35.0', b'AAABAAEAAQIBVHcAAQIAAQECAA==') as a decorator on your test case
+
+Falsifying example:
+state = BrownieStateMachine()
+state.rule_setApprovalForAll(st_bool=True, st_receiver=1, st_sender=2)
+state.rule_approve(st_receiver=0, st_sender=1, st_token=2)
+state.teardown()
+
+Traceback (most recent call last):
+  File "/Users/edrdo/development/erc721-pbt/erc721_pbt.py", line 161, in rule_approve
+    tx = self.contract.approve(
+brownie.exceptions.VirtualMachineError: revert
+Trace step -1, program counter 1601:
+  File "contracts/ERC721Base.sol", line 172, in ERC721Base.approve:    
+     */
+    function approve(address operator, uint256 assetId) external {
+      address holder = _ownerOf(assetId);
+      require(msg.sender == holder || _isApprovedForAll(msg.sender, holder));
+      require(operator != holder);
+
+      if (_getApprovedAddress(assetId) != operator) {
+
+
+
+You can reproduce this example by temporarily adding @reproduce_failure('5.35.0', b'AAABAAEAAQECAAEAAAABAQ==') as a decorator on your test case
+
+Falsifying example:
+state = BrownieStateMachine()
+state.rule_setApprovalForAll(st_bool=True, st_receiver=3, st_sender=3)
+state.teardown()
+
+Traceback (most recent call last):
+  File "/Users/edrdo/development/erc721-pbt/erc721_pbt.py", line 209, in rule_setApprovalForAll
+    tx = self.contract.setApprovalForAll(
+  File "/Users/edrdo/development/erc721-pbt/erc721_pbt.py", line 334, in alt_exit
+    return f(self, exc_type, exc_value, traceback)
+  File "brownie/test/managers/runner.py", line 65, in __exit__
+    raise AssertionError("Transaction did not revert")
+AssertionError: Transaction did not revert
+
+
+
+You can reproduce this example by temporarily adding @reproduce_failure('5.35.0', b'AAABcgEAAQMD') as a decorator on your test case
+
+Falsifying example:
+state = BrownieStateMachine()
+state.rule_setApprovalForAll(st_bool=False, st_receiver=0, st_sender=3)
+state.teardown()
+
+Traceback (most recent call last):
+  File "/Users/edrdo/development/erc721-pbt/erc721_pbt.py", line 190, in rule_setApprovalForAll
+    tx = self.contract.setApprovalForAll(
+brownie.exceptions.VirtualMachineError: revert
+Trace step -1, program counter 3092:
+  File "contracts/ERC721Base.sol", line 159, in ERC721Base._setApprovalForAll:    
+      require(!_isApprovedForAll(msg.sender, operator));
+      _addAuthorization(operator, msg.sender);
+    } else {
+      require(_isApprovedForAll(msg.sender, operator));
+      _clearAuthorization(operator, msg.sender);
+    }
+    emit ApprovalForAll(msg.sender, operator, authorized);
+
+
+
+You can reproduce this example by temporarily adding @reproduce_failure('5.35.0', b'AAABAAEAAAAD') as a decorator on your test case
+=========================== short test summary info ============================
+FAILED tests/test_Decentraland.py::test_stateful - hypothesis.errors.Multiple...
+======================== 1 failed in 248.71s (0:04:08) =========================
+Terminating local RPC client...
